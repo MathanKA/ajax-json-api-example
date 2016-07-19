@@ -1,4 +1,3 @@
-
 function loadData() {
 
     var $body = $('body');
@@ -40,6 +39,22 @@ function loadData() {
         $nytHeaderElem.text('New yourk times article could not be loaded');
     });
 
+    // Wikipedia Article API
+    var wikiUrl = 'http://en.Wikipedia.org/w/api.php?action=opensearch&search=' + city + '&format=json&callback=wikiCallback';
+
+    $.ajax({
+        url: wikiUrl,
+        dataType: "jsonp",
+        success: function (response){
+            var articleList = response[1];
+
+            for (var i=0; i < articleList.length; i++){
+                articlestr = articleList[i];
+                var wurl = 'http://en.Wikipedia.org/wiki/' + articlestr ;
+                $wikiElem.append('<li> <a href="' + wurl + '">' + articlestr + '</a></li>');
+            }
+        }
+    });
     return false;
 };
 
