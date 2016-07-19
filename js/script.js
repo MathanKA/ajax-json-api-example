@@ -24,22 +24,21 @@ function loadData() {
     $body.append('<img class="bgimg" src=" ' + streetUrl + ' ">');
 
     // NYT API code
-    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-    url += '?' + $.param({
-      'api-key': "da6ed86a1b574fe687484b96ead6ef5d",
-      'q': "'+ city +'"
-    });
+    var url = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + city + '&sort=newest&api-key=da6ed86a1b574fe687484b96ead6ef5d'
 
-    $.getJSON(url, fucntion( data ){
+    $.getJSON(url, function( data ){
         $nytHeaderElem.text('New yourk times article about' + city);
-        var items = [];
-        $.each(data, function(i){
-            $nytElem.append('<li class="articles"' + '<a href="'+article.web_url+'">' + article.headline.main + '</a>' +
-                '<p>' + article.snippet + '</p>' +
-                '</li>');
 
-        });
-    })
+        articles = data.response.docs;
+        for (var i= 0; i < articles.length; i++){
+            var article = articles[i];
+            $nytElem.append('<li class="article"' + '<a href="'+article.web_url+'">' + article.headline.main + '</a>' +
+                '<p>' + article.snippet + '</p>' +
+            '</li>');
+        };
+    }).fail (function(e){
+        $nytHeaderElem.text('New yourk times article could not be loaded');
+    });
 
     return false;
 };
