@@ -31,8 +31,14 @@ function loadData() {
     });
 
     $.getJSON(url, fucntion( data ){
+        $nytHeaderElem.text('New yourk times article about' + city);
         var items = [];
-        $.each
+        $.each(data, function(i){
+            $nytElem.append('<li class="articles"' + '<a href="'+article.web_url+'">' + article.headline.main + '</a>' +
+                '<p>' + article.snippet + '</p>' +
+                '</li>');
+
+        });
     })
 
     return false;
